@@ -10,15 +10,14 @@ searchBtn.addEventListener('click', searchRecipes);
 // Function to search for recipes
 function searchRecipes() {
   const userInput = searchInput.value;
-  const apiKey = 'd40b55e0b55f4099b859b04b2533d17a';
-  const apiUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&query=${userInput}`;
+  const apiUrl = `http://localhost:3000/recipes?query=${userInput}`;
 
   fetch(apiUrl)
     .then(response => response.json())
     .then(data => {
       const startIndex = (currentPage - 1) * perPage;
       const endIndex = startIndex + perPage;
-      const recipes = data.results.slice(startIndex, endIndex);
+      const recipes = data.slice(startIndex, endIndex);
       displayRecipes(recipes);
     })
     .catch(error => {
@@ -49,8 +48,7 @@ function displayRecipes(recipes) {
 
 // Function to show recipe details
 function showRecipeDetails(recipeId) {
-  const apiKey = 'd40b55e0b55f4099b859b04b2533d17a';
-  const apiUrl = `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apiKey}`;
+  const apiUrl = `http://localhost:3000/recipes/${recipeId}`;
 
   fetch(apiUrl)
     .then(response => response.json())
@@ -89,7 +87,7 @@ function showRecipeDetails(recipeId) {
     })
     .catch(error => {
       console.log('Error:', error);
-});
+    });
 }
 
 // Function to handle pagination navigation
@@ -142,40 +140,15 @@ recipeForm.addEventListener('submit', (event) => {
   event.preventDefault(); // Prevent form submission
 
   // Get user input from the form inputs
-  const recipeInput = document.getElementById('recipe-input');
-  const instructionsInput = document.getElementById('instructions-input');
+  const titleInput = document.getElementById('title-input');
   const title = titleInput.value;
-  const instructions = instructionsInput.value;
 
   // Call the createRecipe function
-  createRecipe(title, instructions);
+  createRecipe(title);
 });
 
 // Function to create a recipe
-function createRecipe(title, instructions) {
-  const apiKey = 'd40b55e0b55f4099b859b04b2533d17a'; 
-
-  const apiUrl = 'https://api.spoonacular.com/recipes/visualizeRecipe';
-  const formData = new FormData();
-  formData.append('title', title);
-  formData.append('instructions', instructions);
-  formData.append('apiKey', apiKey);
-
-  // Send a POST request to the API
-  fetch(apiUrl, {
-    method: 'POST',
-    body: formData,
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Recipe created:', data);
-      // Handle the response and perform any necessary actions
-    })
-    .catch(error => {
-      console.log('Error:', error);
-      // Handle the error
-    });
+function createRecipe(title) {
+  // Replace the following code with your logic to create a recipe on your local server
+  console.log('Recipe created:', title);
 }
-
-
-    
